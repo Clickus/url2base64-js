@@ -1,0 +1,28 @@
+{
+  "name": "url2base64-js",
+  "version": "0.0.1",
+  "description": "URL2BASE64 IMG",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Clickus/url2base64-js.git"
+  },
+  "keywords": [
+    "http",
+    "https",
+    "url",
+    "base64",
+    "img"
+  ],
+  "author": {
+    "name": "clickus",
+    "email": "861479734@qq.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Clickus/url2base64-js/issues"
+  },
+  "homepage": "https://github.com/Clickus/url2base64-js#readme"
+}
