@@ -1,6 +1,19 @@
 'use strict';
 
 /**
+ * 判断是否为IE9
+ */
+function getIeVersion() {
+  var userAgent = navigator.userAgent;
+  var reIE = new RegExp("MSIE (\\d+\\.\\d+);").test(userAgent);
+  var version = parseFloat(RegExp["$1"]);
+  if (!isNaN(version)&&version<=9&&version>=7) {
+    return true
+  }
+  return false
+}
+
+/**
  * 判断是否http或者https请求
  * @param {*} url 地址
  * return true or false 
@@ -36,7 +49,7 @@ function isOnline(callFn) {
 function url2Base64ByCanvas(url, callFn) {
   var img = new Image();
   img.src = url + "?v=" + Math.random(); // 处理缓存
-  img.crossOrigin = "*"; // 支持跨域图片
+  img.crossOrigin = "anonymous"; // 支持跨域图片
   img.onload = function() {
     var canvas = document.createElement("canvas");
     canvas.width = img.width;
@@ -56,21 +69,31 @@ function url2Base64ByCanvas(url, callFn) {
 function imgUrl2Base64(url, callFn) {
   if (!judgeUrl(url)) {
     callFn(url||"")
-    new Error('图片URL有误')
-    return
+    throw new Error('图片URL有误')
   }
+  // if (getIeVersion()) {
+  //   url2Base64ByCanvas(url, function(out) {
+  //     callFn(out);
+  //   })
+  //   return
+  // }
   window.URL = window.URL || window.webkitURL;
   var xhr = new XMLHttpRequest();
   xhr.open("get", url, true);
   xhr.responseType = "blob";
   xhr.onload = function() {
     if (this.status == 200) {
-      var blob = this.response;
-      let oFileReader = new FileReader();
-      oFileReader.onloadend = function(e) {
-        callFn(e.target.result);
-      };
-      oFileReader.readAsDataURL(blob);
+      if (typeof FileReader === 'function') {
+        var blob = this.response;
+        var oFileReader = new FileReader();
+        oFileReader.onloadend = function(e) {
+          callFn(e.target.result);
+        };
+        oFileReader.readAsDataURL(blob);
+      } else {
+        callFn(url||"")
+        throw new Error('不支持FileReader')
+      }
     } else {
       url2Base64ByCanvas(url, function(out) {
         callFn(out);
@@ -79,5 +102,6 @@ function imgUrl2Base64(url, callFn) {
   };
   xhr.send();
 }
-
-exports.imgUrl2Base64 = imgUrl2Base64;
+if('object' === typeof exports) {
+  exports.imgUrl2Base64 = imgUrl2Base64;
+}

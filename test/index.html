@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>url2base64-js test 测试</title>
+</head>
+<script src="../index.js"></script>
+<body>
+  <img  width="60" height="60"  id="imgSrc" alt="效果" src="" />
+</body>
+</html>
+
+<script>
+    var URL = 'https://csdnimg.cn/pubfooter/images/job-QR.png'
+    imgUrl2Base64(URL, function(out){
+      document.getElementById('imgSrc').src = out
+      console.log(out);
+    })
+// imgUrl2Base64
+</script>

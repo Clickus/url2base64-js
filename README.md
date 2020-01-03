@@ -8,3 +8,5 @@ imgUrl2Base64(urlStr, function(base64){
   console.log(base64);
 })
 ```
+
+## IE > 9
